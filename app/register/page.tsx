@@ -1,32 +1,45 @@
+import Image from 'next/image'
+import { RegisterForm } from '../../src/features/auth/ui/RegisterForm'
+import AuthIllustration from '@/entities/transaction/assets/login_illustration.svg'
+import Link from 'next/link'
+
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Crear Cuenta
-        </h1>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Únete a Finanzas Personales
-        </p>
-      </div>
+    <main className="max-h-screen h-full bg-beige-100 flex items-stretch py-5 sm:px-6 lg:px-5 max-w-[1440px] gap-x-4">
+      <section className="max-w-[560px] w-full bg-grey-900 rounded-xl overflow-hidden hidden lg:block">
+        <Image
+          src={AuthIllustration}
+          alt="Register Illustration"
+          width={0}
+          height={0}
+          priority
+          sizes="(min-width: 1024px) 500px, (min-width: 768px) 100vw, 100vw"
+          className="w-full h-auto"
+        />
+      </section>
+      <section className="flex-1 shrink-0 flex flex-col justify-center items-center">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Crear Cuenta
+          </h1>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Únete a Finanzas Personales
+          </p>
+        </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <div className="text-center">
-            <p className="text-gray-600">
-              Página de registro en construcción
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <RegisterForm />
+          
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              ¿Ya tienes una cuenta?{' '}
+              <Link href="/login" className="font-medium text-grey-900 hover:text-grey-500">
+                Inicia sesión aquí
+              </Link>
             </p>
-            <div className="mt-6">
-              <a 
-                href="/login" 
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                ← Volver al Login
-              </a>
-            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }
