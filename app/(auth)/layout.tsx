@@ -1,11 +1,14 @@
 import Image from 'next/image'
-import { RegisterForm } from '../../src/features/auth/ui/RegisterForm'
 import AuthIllustration from '@/entities/transaction/assets/login_illustration.svg'
-import Link from 'next/link'
 
-export default function RegisterPage() {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <main className="max-h-screen h-full bg-beige-100 flex items-stretch py-5 sm:px-6 lg:px-5 max-w-[1440px] gap-x-4">
+      {/* Left section - shared between login and register */}
       <section className="relative max-w-[560px] w-full bg-grey-900 rounded-xl overflow-hidden hidden lg:block">
         <div className="absolute inset-0 p-10 flex flex-col justify-between">
           <Image src="/logo.svg" alt="Logo" width={122} height={22} />
@@ -17,7 +20,7 @@ export default function RegisterPage() {
         </div>
         <Image
           src={AuthIllustration}
-          alt="Register Illustration"
+          alt="Auth Illustration"
           width={0}
           height={0}
           priority
@@ -25,28 +28,10 @@ export default function RegisterPage() {
           className="w-full h-auto"
         />
       </section>
+      
+      {/* Right section - dynamic content (login/register forms) */}
       <section className="flex-1 shrink-0 flex flex-col justify-center items-center">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Crear Cuenta
-          </h1>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Únete a Finanzas Personales
-          </p>
-        </div>
-
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <RegisterForm />
-          
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              ¿Ya tienes una cuenta?{' '}
-              <Link href="/login" className="font-medium text-grey-900 hover:text-grey-500">
-                Inicia sesión aquí
-              </Link>
-            </p>
-          </div>
-        </div>
+        {children}
       </section>
     </main>
   )
