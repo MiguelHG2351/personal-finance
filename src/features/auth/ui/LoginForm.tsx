@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useSignIn, useSignInWithGoogle } from '../api/authApi'
+import { toast } from "@pheralb/toast";
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
@@ -23,6 +24,9 @@ export function LoginForm() {
     try {
       await signInWithGoogleMutation.mutateAsync()
     } catch (error) {
+      toast.error({
+        text: 'Error signing in with Google',
+      })
       console.error('Error signing in with Google:', error)
     }
   }
