@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { TransactionTable, Transaction } from './TransactionTable';
 
@@ -144,7 +145,7 @@ export const TransactionTableExample: React.FC = () => {
         <h1 className="text-2xl font-bold text-[#201f24] mb-6">
           Tabla de Transacciones
         </h1>
-        
+
         <TransactionTable
           transactions={sampleTransactions}
           onTransactionClick={handleTransactionClick}

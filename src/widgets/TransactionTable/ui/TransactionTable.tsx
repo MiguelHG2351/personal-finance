@@ -1,7 +1,8 @@
 import React from 'react';
 import { Table, TableColumn, TableFilter } from '../../../shared/ui/Table';
+import Image from 'next/image';
 
-// Tipos para las transacciones
+// Types for transactions
 export interface Transaction {
   id: string;
   recipient: string;
@@ -18,14 +19,16 @@ interface TransactionTableProps {
   onTransactionClick?: (transaction: Transaction) => void;
 }
 
-// Componente para mostrar el avatar y nombre del destinatario
+// Component to display the recipient's avatar and name
 const RecipientCell: React.FC<{ transaction: Transaction }> = ({ transaction }) => (
   <div className="flex items-center gap-3">
     <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-      <img 
-        src={transaction.avatar} 
+      <Image
+        src={transaction.avatar}
         alt={transaction.recipient}
         className="w-full h-full object-cover"
+        width={40}
+        height={40}
       />
     </div>
     <span className="text-[#201f24] text-sm font-bold">
@@ -34,21 +37,21 @@ const RecipientCell: React.FC<{ transaction: Transaction }> = ({ transaction }) 
   </div>
 );
 
-// Componente para mostrar la categoría
+// Component to display the category
 const CategoryCell: React.FC<{ category: string }> = ({ category }) => (
   <span className="text-[#696868] text-xs font-normal">
     {category}
   </span>
 );
 
-// Componente para mostrar la fecha
+// Component to display the date
 const DateCell: React.FC<{ date: string }> = ({ date }) => (
   <span className="text-[#696868] text-xs font-normal">
     {date}
   </span>
 );
 
-// Componente para mostrar el monto con formato
+// Component to display the formatted amount
 const AmountCell: React.FC<{ amount: number; type: 'income' | 'expense' }> = ({ amount, type }) => {
   const formattedAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -72,7 +75,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
   className = "",
   onTransactionClick,
 }) => {
-  // Definir las columnas de la tabla
+  // Define table columns
   const columns: TableColumn<Transaction>[] = [
     {
       key: 'recipient',
@@ -105,7 +108,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
     },
   ];
 
-  // Definir los filtros
+  // Define filters
   const filters: TableFilter[] = [
     {
       key: 'category',
