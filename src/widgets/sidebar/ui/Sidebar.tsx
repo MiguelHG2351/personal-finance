@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // Assets locales del diseño de Figma
 const overviewIcon = "/icons/overview-icon.svg";
@@ -21,43 +22,50 @@ interface SidebarProps {
 // TODO: minimized sidebar have left padding
 
 export default function Sidebar({ className = '', isMinimized = false, onMinimize }: SidebarProps) {
+  const pathname = usePathname();
+  
   const menuItems = [
     {
       id: 'overview',
       label: 'Overview',
       icon: overviewIcon,
-      href: '/dashboard',
-      isActive: true
+      href: '/dashboard'
     },
     {
       id: 'transactions',
       label: 'Transactions',
       icon: transactionsIcon,
-      href: '/dashboard/transactions',
-      isActive: false
+      href: '/dashboard/transactions'
     },
     {
       id: 'budgets',
       label: 'Budgets',
       icon: budgetsIcon,
-      href: '/dashboard/budgets',
-      isActive: false
+      href: '/dashboard/budgets'
     },
     {
       id: 'pots',
       label: 'Pots',
       icon: potsIcon,
-      href: '/dashboard/pots',
-      isActive: false
+      href: '/dashboard/pots'
     },
     {
       id: 'recurring-bills',
       label: 'Recurring Bills',
       icon: recurringBillsIcon,
-      href: '/dashboard/recurring-bills',
-      isActive: false
+      href: '/dashboard/recurring-bills'
     }
   ];
+  
+  // Función para determinar si un elemento está activo
+  const isItemActive = (href: string) => {
+    if (href === '/dashboard') {
+      // Para el dashboard principal, solo activar si es exactamente '/dashboard'
+      return pathname === '/dashboard';
+    }
+    // Para otras rutas, activar si el pathname comienza con el href
+    return pathname.startsWith(href);
+  };
 
   return (
     <div
@@ -96,7 +104,7 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
             key={item.id}
             href={item.href}
             className={`box-border content-stretch cursor-pointer flex flex-row gap-4 h-14 items-center justify-start overflow-visible px-8 py-4 relative rounded-br-[12px] rounded-tr-[12px] shrink-0 w-full transition-all duration-200 hover:bg-[#2a2930] ${
-              item.isActive 
+              isItemActive(item.href) 
                 ? 'bg-[#f8f4f0]' 
                 : 'bg-transparent'
             }`}
@@ -114,7 +122,7 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
             {!isMinimized && (
               <div
                 className={`basis-0 font-bold grow leading-[1.5] min-h-px min-w-px relative shrink-0 text-preset-3 text-left ${
-                  item.isActive ? 'text-[#201f24]' : 'text-[#b3b3b3]'
+                  isItemActive(item.href) ? 'text-[#201f24]' : 'text-[#b3b3b3]'
                 }`}
               >
                 <span>
