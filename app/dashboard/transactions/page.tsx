@@ -1,4 +1,9 @@
-import TransactionTableExample from "@/widgets/TransactionTable/ui/TransactionTableExample";
+import TransactionTableExample from "@/widgets/table/ui/TransactionTableExample";
+
+export const metadata = {
+    title: 'Transactions',
+    description: 'Transactions page',
+}
 
 export default function TransactionsPage() {
   return (

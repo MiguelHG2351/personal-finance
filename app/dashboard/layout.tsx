@@ -17,14 +17,16 @@ export default function FinanceLayout({
     <main className="max-h-screen overflow-hidden h-full bg-beige-100 grid grid-cols-[auto_1fr] grid-rows-[100vh] items-stretch">
       {/* Sidebar */}
       <section className="flex-shrink-0 hidden lg:block">
-        <Sidebar 
+        <Sidebar
           isMinimized={isSidebarMinimized}
           onMinimize={handleMinimize}
         />
       </section>
       {/* Main Content */}
-      <section className="flex-1 p-8 max-w-[1440px] py-5 sm:px-6 lg:px-5 overflow-y-auto">
-        {children}
+      <section className="flex-1 p-8 py-5 sm:px-6 lg:px-5 overflow-y-auto">
+        <div className="max-w-[1440px] mx-auto">
+          {children}
+        </div>
       </section>
     </main>
   );

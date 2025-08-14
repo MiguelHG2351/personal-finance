@@ -1,7 +1,7 @@
 'use client';
 
-import SpendingDashboard from '@/components/SpendingDashboard';
-import TransactionTableExample from '@/widgets/TransactionTable/ui/TransactionTableExample';
+import SpendingDashboard from '@/widgets/graph/ui/SpendingDashboard';
+import TransactionTableExample from '@/widgets/table/ui/TransactionTableExample';
 
 export default function DashboardPage() {
   return (

@@ -109,7 +109,7 @@ const sampleTransactions: Transaction[] = [
     recipient: 'John Doe',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face',
     category: 'General',
-    date: '11 Aug 2024',
+    date: '11 Aug 2025',
     amount: 10.00,
     type: 'expense',
   },
@@ -145,7 +145,6 @@ export const TransactionTableExample: React.FC = () => {
         <h1 className="text-2xl font-bold text-[#201f24] mb-6">
           Tabla de Transacciones
         </h1>
-
         <TransactionTable
           transactions={sampleTransactions}
           onTransactionClick={handleTransactionClick}
