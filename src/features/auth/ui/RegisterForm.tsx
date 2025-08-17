@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { supabase } from '@/shared/config/supabase'
+import { useSignUp, useSignInWithGoogle } from '../api/authApi'
 import { useRouter } from 'next/navigation'
 
 export function RegisterForm() {
@@ -12,39 +11,13 @@ export function RegisterForm() {
   const [fullName, setFullName] = useState('')
   const router = useRouter()
 
-  const signUpMutation = useMutation({
-    mutationFn: async ({ email, password, fullName }: { email: string; password: string; fullName: string }) => {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          }
-        }
-      })
-      
-      if (error) throw error
-      return data
-    },
-    onSuccess: () => {
-      router.push('/dashboard')
-    },
-  })
+  const signUpMutation = useSignUp()
+  
+  const handleSignUpSuccess = () => {
+    router.push('/dashboard')
+  }
 
-  const signUpWithGoogleMutation = useMutation({
-    mutationFn: async () => {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/dashboard`
-        }
-      })
-      
-      if (error) throw error
-      return data
-    },
-  })
+  const signUpWithGoogleMutation = useSignInWithGoogle()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -59,7 +32,9 @@ export function RegisterForm() {
       return
     }
     
-    signUpMutation.mutate({ email, password, fullName })
+    signUpMutation.mutate({ email, password, fullName }, {
+      onSuccess: handleSignUpSuccess
+    })
   }
 
   return (

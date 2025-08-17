@@ -1,10 +1,11 @@
-import { createClient } from '@/shared/lib/supabase/client'
+import { useSupabaseBrowser } from '@/shared/lib/supabase/client'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-const supabase = createClient()
+// const supabase = createClient()
 
 // Hook para obtener el usuario actual
 export const useUser = () => {
+  const supabase = useSupabaseBrowser()
   return useQuery({
     queryKey: ['user'],
     queryFn: async () => {
@@ -19,6 +20,7 @@ export const useUser = () => {
 // Hook para login con email/password
 export const useSignIn = () => {
   const queryClient = useQueryClient()
+  const supabase = useSupabaseBrowser()
   
   return useMutation({
     mutationFn: async ({ email, password }: { email: string; password: string }) => {
@@ -38,12 +40,18 @@ export const useSignIn = () => {
 // Hook para registro con email/password
 export const useSignUp = () => {
   const queryClient = useQueryClient()
+  const supabase = useSupabaseBrowser()
   
   return useMutation({
-    mutationFn: async ({ email, password }: { email: string; password: string }) => {
+    mutationFn: async ({ email, password, fullName }: { email: string; password: string; fullName?: string }) => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: fullName ? {
+          data: {
+            full_name: fullName,
+          }
+        } : undefined
       })
       if (error) throw error
       return data
@@ -56,6 +64,7 @@ export const useSignUp = () => {
 
 // Hook para login con Google
 export const useSignInWithGoogle = () => {
+  const supabase = useSupabaseBrowser()
   return useMutation({
     mutationFn: async () => {
       const { data, error } = await supabase.auth.signInWithOAuth({
@@ -73,6 +82,7 @@ export const useSignInWithGoogle = () => {
 // Hook para logout
 export const useSignOut = () => {
   const queryClient = useQueryClient()
+  const supabase = useSupabaseBrowser()
   
   return useMutation({
     mutationFn: async () => {
