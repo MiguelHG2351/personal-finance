@@ -15,64 +15,91 @@ export type Database = {
   }
   public: {
     Tables: {
-      budgets: {
+      budget: {
         Row: {
-          category_id: string | null
-          color_hex: string
-          created_at: string | null
+          created_at: string
           id: string
-          name: string
-          target_amount: number | null
+          name: string | null
+          target_amount: number
+          theme: string
           updated_at: string | null
         }
         Insert: {
-          category_id?: string | null
-          color_hex: string
-          created_at?: string | null
+          created_at?: string
           id?: string
-          name: string
-          target_amount?: number | null
+          name?: string | null
+          target_amount: number
+          theme?: string
           updated_at?: string | null
         }
         Update: {
-          category_id?: string | null
-          color_hex?: string
-          created_at?: string | null
+          created_at?: string
           id?: string
-          name?: string
-          target_amount?: number | null
+          name?: string | null
+          target_amount?: number
+          theme?: string
           updated_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "budgets_category_id_fkey"
-            columns: ["category_id"]
-            isOneToOne: false
-            referencedRelation: "categories"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       categories: {
         Row: {
           created_at: string | null
           id: string
           name: string
+          theme: string
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           id?: string
           name: string
+          theme?: string
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           id?: string
           name?: string
+          theme?: string
           updated_at?: string | null
         }
         Relationships: []
+      }
+      transactions: {
+        Row: {
+          budget_id: string | null
+          created_at: string
+          date: string
+          id: string
+          name: string
+          recurring: boolean
+        }
+        Insert: {
+          budget_id?: string | null
+          created_at?: string
+          date?: string
+          id?: string
+          name: string
+          recurring?: boolean
+        }
+        Update: {
+          budget_id?: string | null
+          created_at?: string
+          date?: string
+          id?: string
+          name?: string
+          recurring?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_budget_id_fkey"
+            columns: ["budget_id"]
+            isOneToOne: false
+            referencedRelation: "budget"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

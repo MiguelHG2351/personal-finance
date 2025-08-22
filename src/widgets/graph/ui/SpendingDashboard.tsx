@@ -131,10 +131,10 @@ export default function SpendingDashboard({
                 
                 {/* Center Content */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="text-[32px] font-bold leading-[1.2] text-[#201f24] font-['Public_Sans']">
+                  <div className="text-[32px] font-bold leading-[1.2] text-[#201f24]">
                     ${totalSpent}
                   </div>
-                  <div className="text-[12px] font-normal leading-[1.5] text-[#696868] font-['Public_Sans']">
+                  <div className="text-[12px] font-normal leading-[1.5] text-[#696868]">
                     of ${totalLimit} limit
                   </div>
                 </div>
@@ -144,7 +144,7 @@ export default function SpendingDashboard({
 
           {/* Spending Summary Section */}
           <div className="flex flex-col gap-6 items-start justify-start relative w-full">
-            <div className="text-[20px] font-bold leading-[1.2] text-[#201f24] font-['Public_Sans']">
+            <div className="text-preset-2 text-gray-900">
               Spending Summary
             </div>
             
@@ -156,16 +156,16 @@ export default function SpendingDashboard({
                       className="w-1 h-[43px] rounded-sm"
                       style={{ backgroundColor: item.color }}
                     />
-                    <div className="text-[14px] font-normal leading-[1.5] text-[#696868] font-['Public_Sans']">
+                    <div className="text-[14px] font-normal leading-[1.5] text-[#696868]">
                       {item.category}
                     </div>
                   </div>
                   
                   <div className="flex flex-col gap-1 items-end justify-center">
-                    <div className="text-[14px] font-bold leading-[1.5] text-[#201f24] font-['Public_Sans']">
+                    <div className="text-[14px] font-bold leading-[1.5] text-[#201f24]">
                       ${item.amount.toFixed(2)}
                     </div>
-                    <div className="text-[12px] font-normal leading-[1.5] text-[#696868] font-['Public_Sans']">
+                    <div className="text-[12px] font-normal leading-[1.5] text-[#696868]">
                       of ${item.limit.toFixed(2)}
                     </div>
                   </div>

@@ -142,9 +142,12 @@ export const TransactionTableExample: React.FC = () => {
   return (
     <div className="p-6 bg-[#f8f4f0] min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold text-[#201f24] mb-6">
-          Transaction Table
-        </h1>
+        <div className="flex">
+          <h1 className="text-2xl font-bold text-[#201f24] mb-6">
+            Transaction Table
+          </h1>
+          
+        </div>
         <TransactionTable
           transactions={sampleTransactions}
           onTransactionClick={handleTransactionClick}
