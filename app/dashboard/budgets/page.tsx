@@ -7,7 +7,7 @@ import { sampleBudgets } from "@/shared/data/budgets";
 
 const BudgetsPage = () => {
   return (
-    <div>
+    <>
       <div className="flex justify-between pb-4">
         <h1 className="text-preset-1">Budgets</h1>
         <Button variant="primary">
@@ -15,7 +15,7 @@ const BudgetsPage = () => {
         </Button>
       </div>
       <div className="lg:flex">
-        <section> 
+        <section>
           {/* Graph with the spending summary */}
           <SpendingDashboard />
         </section>
@@ -23,7 +23,7 @@ const BudgetsPage = () => {
           <BudgetsList budgets={sampleBudgets} />
         </section>
       </div>
-    </div>
+    </>
   )
 }
 
