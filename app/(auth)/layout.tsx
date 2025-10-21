@@ -7,7 +7,7 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="h-screen bg-beige-100 grid lg:grid-cols-[560px_1fr] grid-cols-1 py-5 sm:px-6 lg:px-5 max-w-[1440px] gap-x-4">
+    <main className="h-screen bg-beige-100 grid lg:grid-cols-[560px_1fr] grid-cols-1 py-5 sm:px-6 lg:px-5 max-w-[1440px] mx-auto gap-x-4">
       {/* Left section - shared between login and register */}
       <section className="relative h-full w-full bg-grey-900 rounded-xl overflow-hidden hidden lg:flex lg:flex-col">
         <div className="absolute inset-0 p-10 flex flex-col justify-between">
@@ -27,7 +27,7 @@ export default function AuthLayout({
           <p className="text-white text-preset-4">Personal finance app puts you in control of your spending. Track transactions, set budgets, and add to savings pots easily.</p>
         </div>
       </section>
-      
+
       {/* Right section - dynamic content (login/register forms) */}
       <section className="flex flex-col justify-center items-center">
         {children}

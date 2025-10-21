@@ -54,10 +54,10 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
           <Link
             key={item.id}
             href={item.href}
-            className={`box-border content-stretch cursor-pointer flex flex-row gap-4 h-14 items-center justify-start overflow-visible px-8 py-4 relative rounded-br-[12px] rounded-tr-[12px] shrink-0 w-full transition-all duration-200 ${
+            className={`box-border border-l-4 content-stretch cursor-pointer flex flex-row gap-4 h-14 items-center justify-start overflow-visible px-8 py-4 relative rounded-br-[12px] rounded-tr-[12px] shrink-0 w-full transition-all duration-200 ${
               isNavigationItemActive(item.href, pathname)
-                ? 'bg-beige-100 border-l-4 border-green'
-                : 'bg-transparent hover:bg-[#2a2930]'
+                ? 'bg-beige-100 border-green'
+                : 'bg-transparent border-transparent hover:bg-[#2a2930] hover:border-transparent'
             }`}
             data-name="Sidebar/Sidebar Menu"
           >
