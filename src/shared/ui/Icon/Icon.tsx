@@ -10,7 +10,8 @@ export type IconName =
   | 'pots'
   | 'recurring-bills'
   | 'minimize'
-  | 'minimized-logo';
+  | 'minimized-logo'
+  | 'x';
 
 // Tamaños predefinidos
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'custom';
@@ -60,6 +61,11 @@ const iconComponents: Record<IconName, React.FC<React.SVGProps<SVGSVGElement>>> 
   'minimized-logo': (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="22" viewBox="0 0 14 22" fill="none" {...props}>
       <path d="M0 0H14V22H0V0Z" fill="currentColor"/>
+    </svg>
+  ),
+  x: (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   ),
 };

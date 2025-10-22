@@ -1,18 +1,14 @@
-'use client'
-
-import { Button } from "@/shared/ui/Button";
 import { BudgetsList } from "@/shared/ui/BudgetsList";
 import SpendingDashboard from "@/widgets/graph/ui/SpendingDashboard";
 import { sampleBudgets } from "@/shared/data/budgets";
+import { AddBudgetButton } from "@/features/add-budget";
 
 const BudgetsPage = () => {
   return (
     <>
       <div className="flex justify-between pb-4">
         <h1 className="text-preset-1">Budgets</h1>
-        <Button variant="primary">
-          Add New Budget
-        </Button>
+        <AddBudgetButton />
       </div>
       <div className="lg:flex">
         <section>

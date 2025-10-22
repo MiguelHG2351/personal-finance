@@ -31,7 +31,7 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
         data-name="Logo"
       >
         <div
-          className={`relative shrink-0 ${isMinimized ? 'w-8 h-8' : 'w-[121.454px] h-[21.76px]'} transition-all duration-300`}
+          className={`relative shrink-0 ${isMinimized ? 'w-8 h-8' : 'w-[121.454px] h-8'} transition-all duration-300`}
           data-name="Logo"
         >
           <Image
@@ -47,14 +47,14 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
 
       {/* Menu Section */}
       <div
-        className="basis-0 box-border content-stretch flex flex-col gap-1 grow items-start justify-start max-h-[800px] min-h-px min-w-px pl-0 pr-6 py-0 relative shrink-0 w-full"
+        className="box-border content-stretch flex flex-col gap-1 items-start justify-start min-h-px min-w-px pl-0 pr-2 py-0 relative shrink-0 w-full"
         data-name="Menu Section"
       >
         {navigationItems.map((item) => (
           <Link
             key={item.id}
             href={item.href}
-            className={`box-border border-l-4 content-stretch cursor-pointer flex flex-row gap-4 h-14 items-center justify-start overflow-visible px-8 py-4 relative rounded-br-[12px] rounded-tr-[12px] shrink-0 w-full transition-all duration-200 ${
+            className={`box-border border-l-4 content-stretch cursor-pointer flex flex-row gap-4 h-14 items-center justify-start overflow-visible ${isMinimized ? 'pl-[22px]' : 'px-5'} py-4 relative rounded-br-[12px] rounded-tr-[12px] shrink-0 w-full transition-all duration-200 ${
               isNavigationItemActive(item.href, pathname)
                 ? 'bg-beige-100 border-green'
                 : 'bg-transparent border-transparent hover:bg-[#2a2930] hover:border-transparent'
@@ -68,7 +68,7 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
             />
             {!isMinimized && (
               <div
-                className={`basis-0 font-bold grow leading-[1.5] min-h-px min-w-px relative shrink-0 text-preset-3 text-left ${
+                className={`transition-none whitespace-nowrap overflow-hidden basis-0 font-bold grow leading-[1.5] min-h-px min-w-px relative shrink-0 text-preset-3 text-left ${
                   isNavigationItemActive(item.href, pathname) ? 'text-gray-900' : 'text-grey-300'
                 }`}
               >
@@ -82,7 +82,7 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
       </div>
 
       {/* Minimize Button */}
-      <div className="box-border content-stretch flex flex-col gap-1 items-start justify-start pl-0 pr-6 py-0 relative shrink-0 w-full">
+      <div className="box-border content-stretch flex flex-col gap-1 items-start justify-start pl-0 pr-6 py-0 relative shrink-0 w-full mt-auto">
         <button
           onClick={onMinimize}
           className="box-border content-stretch cursor-pointer flex flex-row gap-4 h-14 items-center justify-start overflow-visible px-8 py-4 relative shrink-0 w-full transition-all duration-200 hover:bg-[#2a2930]"
@@ -94,7 +94,7 @@ export default function Sidebar({ className = '', isMinimized = false, onMinimiz
             className="text-grey-300"
           />
           {!isMinimized && (
-            <div className="basis-0 font-bold grow leading-[1.5] min-h-px min-w-px relative shrink-0 text-grey-300 text-preset-3 text-left">
+            <div className="transition-none whitespace-nowrap overflow-hidden basis-0 font-bold grow leading-[1.5] min-h-px min-w-px relative shrink-0 text-grey-300 text-preset-3 text-left">
               Minimize Menu
             </div>
           )}
