@@ -3,22 +3,22 @@
 This file provides guidance to WARP (warp.dev) when working with code in this repository.
 
 Repository overview
-- Stack: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS v4, ESLint (flat config with next/core-web-vitals), Prettier. State/data fetching via TanStack Query. Supabase SDKs are present as dependencies and may be used for data access.
-- Package manager: npm (package-lock.json present). Prefer npm commands below.
+- Stack: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, ESLint (flat config with next/core-web-vitals), Prettier. State/data fetching via TanStack Query. Supabase SDKs are present as dependencies and may be used for data access.
+- Package manager: bun (bun.lockb present). Prefer bun commands below.
 
 Common commands
 - Start dev server (with Turbopack):
-  npm run dev
+  bun run dev
   # opens http://localhost:3000
 
 - Build production bundle:
-  npm run build
+  bun run build
 
 - Run production server (after build):
-  npm run start
+  bun run start
 
 - Lint the codebase (Next.js ESLint config):
-  npm run lint
+  bun run lint
 
 - Format code with Prettier (no script defined):
   npx prettier . --write

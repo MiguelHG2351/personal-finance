@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/shared/ui/Button';
 import { Modal, ModalContent, ModalFooter, ModalHeader } from '@/shared/ui/Modal';
+import { AddBudgetForm } from '@/features/budget/ui/AddBudgetForm';
 
 /**
  * Feature component que encapsula el botón y modal para agregar un nuevo presupuesto.
@@ -39,18 +40,8 @@ export const AddBudgetButton = () => {
           <p className="text-grey-500">Choose a category to set a spending budget. These categories can help you monitor spending.</p>
         </ModalHeader>
         <ModalContent>
-          <p className="text-grey-500">
-            Add a new budget here...
-          </p>
+          <AddBudgetForm />
         </ModalContent>
-        <ModalFooter>
-          <Button variant="ghost" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button onClick={handleAddBudget}>
-            Add Budget
-          </Button>
-        </ModalFooter>
       </Modal>
     </>
   );
