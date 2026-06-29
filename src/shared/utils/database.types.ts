@@ -1,4 +1,3 @@
-
 export type Json =
   | string
   | number
@@ -11,92 +10,190 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
-      budget: {
+      budgets: {
         Row: {
+          category_id: number
           created_at: string
+          currency: string
           id: string
-          name: string | null
-          target_amount: number
+          maximum: number
           theme: string
-          updated_at: string | null
+          user_id: string
         }
         Insert: {
+          category_id: number
           created_at?: string
+          currency?: string
           id?: string
-          name?: string | null
-          target_amount: number
-          theme?: string
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string | null
-          target_amount?: number
-          theme?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      categories: {
-        Row: {
-          created_at: string | null
-          id: string
-          name: string
+          maximum: number
           theme: string
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          name: string
-          theme?: string
-          updated_at?: string | null
+          user_id: string
         }
         Update: {
-          created_at?: string | null
+          category_id?: number
+          created_at?: string
+          currency?: string
           id?: string
-          name?: string
+          maximum?: number
           theme?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      transactions: {
-        Row: {
-          budget_id: string | null
-          created_at: string
-          date: string
-          id: string
-          name: string
-          recurring: boolean
-        }
-        Insert: {
-          budget_id?: string | null
-          created_at?: string
-          date?: string
-          id?: string
-          name: string
-          recurring?: boolean
-        }
-        Update: {
-          budget_id?: string | null
-          created_at?: string
-          date?: string
-          id?: string
-          name?: string
-          recurring?: boolean
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "transactions_budget_id_fkey"
-            columns: ["budget_id"]
+            foreignKeyName: "budgets_category_id_fkey"
+            columns: ["category_id"]
             isOneToOne: false
-            referencedRelation: "budget"
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: never
+          name: string
+        }
+        Update: {
+          id?: never
+          name?: string
+        }
+        Relationships: []
+      }
+      pots: {
+        Row: {
+          created_at: string
+          currency: string
+          id: string
+          name: string
+          target: number
+          theme: string
+          total_saved: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          id?: string
+          name: string
+          target: number
+          theme: string
+          total_saved?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          id?: string
+          name?: string
+          target?: number
+          theme?: string
+          total_saved?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      recurring_bills: {
+        Row: {
+          amount: number
+          avatar_url: string | null
+          category_id: number | null
+          created_at: string
+          currency: string
+          due_day: number
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          avatar_url?: string | null
+          category_id?: number | null
+          created_at?: string
+          currency?: string
+          due_day: number
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          avatar_url?: string | null
+          category_id?: number | null
+          created_at?: string
+          currency?: string
+          due_day?: number
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recurring_bills_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount: number
+          avatar_url: string | null
+          category_id: number | null
+          counterparty_name: string
+          created_at: string
+          currency: string
+          id: string
+          recurring_bill_id: string | null
+          transaction_date: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          avatar_url?: string | null
+          category_id?: number | null
+          counterparty_name: string
+          created_at?: string
+          currency?: string
+          id?: string
+          recurring_bill_id?: string | null
+          transaction_date?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          avatar_url?: string | null
+          category_id?: number | null
+          counterparty_name?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          recurring_bill_id?: string | null
+          transaction_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_recurring_bill_id_fkey"
+            columns: ["recurring_bill_id"]
+            isOneToOne: false
+            referencedRelation: "recurring_bills"
             referencedColumns: ["id"]
           },
         ]

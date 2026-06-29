@@ -6,7 +6,7 @@ import { JSX, useEffect } from "react";
 export function ReactScan(): JSX.Element {
   useEffect(() => {
     scan({
-      enabled: true,
+      enabled: process.env.NEXT_PUBLIC_REACT_SCAN === "true",
     });
   }, []);
 

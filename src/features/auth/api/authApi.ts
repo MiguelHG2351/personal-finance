@@ -66,11 +66,14 @@ export const useSignUp = () => {
 export const useSignInWithGoogle = () => {
   const supabase = useSupabaseBrowser()
   return useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ next }: { next?: string } = {}) => {
+      const callbackUrl = new URL('/auth/callback', window.location.origin)
+      if (next) callbackUrl.searchParams.set('next', next)
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
+          redirectTo: callbackUrl.toString()
         }
       })
       if (error) throw error
