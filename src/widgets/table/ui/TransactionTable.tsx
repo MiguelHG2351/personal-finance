@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table, TableColumn, TableFilter } from '../../../shared/ui/Table';
 import Image from 'next/image';
 
@@ -6,7 +6,7 @@ import Image from 'next/image';
 export interface Transaction {
   id: string;
   recipient: string;
-  avatar: string;
+  avatar: string | null;
   category: string;
   date: string;
   amount: number;
@@ -20,22 +20,37 @@ interface TransactionTableProps {
 }
 
 // Component to display the recipient's avatar and name
-const RecipientCell: React.FC<{ transaction: Transaction }> = ({ transaction }) => (
-  <div className="flex items-center gap-3">
-    <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-      <Image
-        src={transaction.avatar}
-        alt={transaction.recipient}
-        className="w-full h-full object-cover"
-        width={40}
-        height={40}
-      />
+const RecipientCell: React.FC<{ transaction: Transaction }> = ({ transaction }) => {
+  const initials = transaction.recipient
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
+
+  return (
+    <div className="flex items-center gap-3">
+      <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-[#f8f4f0] text-[#696868]">
+        {transaction.avatar ? (
+          <Image
+            src={transaction.avatar}
+            alt={transaction.recipient}
+            className="w-full h-full object-cover"
+            width={40}
+            height={40}
+          />
+        ) : (
+          <span className="flex h-full w-full items-center justify-center text-xs font-bold">
+            {initials}
+          </span>
+        )}
+      </div>
+      <span className="text-[#201f24] text-sm font-bold">
+        {transaction.recipient}
+      </span>
     </div>
-    <span className="text-[#201f24] text-sm font-bold">
-      {transaction.recipient}
-    </span>
-  </div>
-);
+  );
+};
 
 // Component to display the category
 const CategoryCell: React.FC<{ category: string }> = ({ category }) => (
@@ -75,6 +90,19 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
   className = "",
   onTransactionClick,
 }) => {
+  const categoryOptions = useMemo(
+    () => [
+      { value: 'all', label: 'All Transactions' },
+      ...Array.from(new Set(transactions.map((transaction) => transaction.category)))
+        .sort()
+        .map((category) => ({
+          value: category,
+          label: category,
+        })),
+    ],
+    [transactions]
+  );
+
   // Define table columns
   const columns: TableColumn<Transaction>[] = [
     {
@@ -113,13 +141,8 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
     {
       key: 'category',
       label: 'Category',
-      options: [
-        { value: 'General', label: 'General' },
-        { value: 'Dining Out', label: 'Dining Out' },
-        { value: 'Groceries', label: 'Groceries' },
-        { value: 'Entertainment', label: 'Entertainment' },
-      ],
-      defaultValue: 'All Transactions',
+      options: categoryOptions,
+      defaultValue: 'all',
     },
     {
       key: 'date',

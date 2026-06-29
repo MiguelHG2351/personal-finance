@@ -1,4 +1,4 @@
-import TransactionTableExample from "@/widgets/table/ui/TransactionTableExample";
+import { TransactionsTableClient } from "@/widgets/table/ui/TransactionsTableClient";
 
 export const metadata = {
     title: 'Transactions',
@@ -8,7 +8,7 @@ export const metadata = {
 export default function TransactionsPage() {
   return (
     <section className="flex-1 p-8 lg:p-0">
-      <TransactionTableExample />
+      <TransactionsTableClient />
     </section>
   );
 }
