@@ -1,53 +1,86 @@
 'use client';
 
 import { useState } from 'react';
-import { X } from 'lucide-react';
 import { Dropdown, DropdownOption } from '@/shared/ui/Dropdown';
-
-const categoryOptions: DropdownOption[] = [
-  { value: 'entertainment', label: 'Entertainment' },
-  { value: 'bills', label: 'Bills' },
-  { value: 'groceries', label: 'Groceries' },
-  { value: 'dining-out', label: 'Dining Out' },
-  { value: 'transportation', label: 'Transportation' },
-  { value: 'personal-care', label: 'Personal Care' },
-  { value: 'education', label: 'Education' },
-  { value: 'lifestyle', label: 'Lifestyle' },
-  { value: 'shopping', label: 'Shopping' },
-  { value: 'general', label: 'General' },
-];
+import { CURRENCIES, currencySymbol } from '@/shared/lib/currency';
+import { useCategories } from '@/entities/budget';
 
 const themeOptions: DropdownOption[] = [
-  { value: 'green', label: 'Green', colorTag: '#277c78' },
-  { value: 'yellow', label: 'Yellow', colorTag: '#f2cdac' },
-  { value: 'cyan', label: 'Cyan', colorTag: '#82c9d7' },
-  { value: 'navy', label: 'Navy', colorTag: '#626070' },
-  { value: 'red', label: 'Red', colorTag: '#c94736' },
-  { value: 'purple', label: 'Purple', colorTag: '#826cb0' },
-  { value: 'turquoise', label: 'Turquoise', colorTag: '#597c7c' },
-  { value: 'brown', label: 'Brown', colorTag: '#93674f' },
-  { value: 'magenta', label: 'Magenta', colorTag: '#934f6f' },
-  { value: 'blue', label: 'Blue', colorTag: '#3f82b2' },
-  { value: 'navy-grey', label: 'Navy Grey', colorTag: '#97a0ac' },
-  { value: 'army-green', label: 'Army Green', colorTag: '#7f9161' },
-  { value: 'gold', label: 'Gold', colorTag: '#cab361' },
-  { value: 'orange', label: 'Orange', colorTag: '#be6c49' },
+  { value: '#277c78', label: 'Green', colorTag: '#277c78' },
+  { value: '#f2cdac', label: 'Yellow', colorTag: '#f2cdac' },
+  { value: '#82c9d7', label: 'Cyan', colorTag: '#82c9d7' },
+  { value: '#626070', label: 'Navy', colorTag: '#626070' },
+  { value: '#c94736', label: 'Red', colorTag: '#c94736' },
+  { value: '#826cb0', label: 'Purple', colorTag: '#826cb0' },
+  { value: '#597c7c', label: 'Turquoise', colorTag: '#597c7c' },
+  { value: '#93674f', label: 'Brown', colorTag: '#93674f' },
+  { value: '#934f6f', label: 'Magenta', colorTag: '#934f6f' },
+  { value: '#3f82b2', label: 'Blue', colorTag: '#3f82b2' },
+  { value: '#97a0ac', label: 'Navy Grey', colorTag: '#97a0ac' },
+  { value: '#7f9161', label: 'Army Green', colorTag: '#7f9161' },
+  { value: '#cab361', label: 'Gold', colorTag: '#cab361' },
+  { value: '#be6c49', label: 'Orange', colorTag: '#be6c49' },
 ];
 
-interface AddBudgetFormProps {
-  onClose?: () => void;
-  onSubmit?: (data: { category: string; maxSpend: string; theme: string }) => void;
+const currencyOptions: DropdownOption[] = CURRENCIES.map((c) => ({
+  value: c.code,
+  label: `${c.label} (${c.symbol})`,
+}));
+
+export interface AddBudgetFormData {
+  category_id: number;
+  maximum: number;
+  theme: string;
+  currency: string;
 }
 
-export function AddBudgetForm({ onClose, onSubmit }: AddBudgetFormProps) {
+interface AddBudgetFormProps {
+  onSubmit?: (data: AddBudgetFormData) => void;
+  isSubmitting?: boolean;
+  error?: string | null;
+}
+
+export function AddBudgetForm({ onSubmit, isSubmitting = false, error }: AddBudgetFormProps) {
   const [category, setCategory] = useState('');
   const [maxSpend, setMaxSpend] = useState('');
   const [theme, setTheme] = useState('');
+  const [currency, setCurrency] = useState('USD');
+  const [validationError, setValidationError] = useState<string | null>(null);
+
+  const { data: categories = [], isLoading: categoriesLoading } = useCategories();
+
+  const categoryOptions: DropdownOption[] = categories.map((c) => ({
+    value: String(c.id),
+    label: c.name,
+  }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit?.({ category, maxSpend, theme });
+    setValidationError(null);
+
+    const maximum = Number(maxSpend);
+
+    if (!category) {
+      setValidationError('Please choose a category.');
+      return;
+    }
+    if (!theme) {
+      setValidationError('Please choose a theme.');
+      return;
+    }
+    if (!Number.isFinite(maximum) || maximum <= 0) {
+      setValidationError('Maximum spend must be a number greater than 0.');
+      return;
+    }
+    if (!currency) {
+      setValidationError('Please choose a currency.');
+      return;
+    }
+
+    onSubmit?.({ category_id: Number(category), maximum, theme, currency });
   };
+
+  const message = validationError ?? error;
 
   return (
     <div className="flex items-center justify-center p-2">
@@ -60,8 +93,9 @@ export function AddBudgetForm({ onClose, onSubmit }: AddBudgetFormProps) {
             label="Budget Category"
             options={categoryOptions}
             value={category}
-            placeholder="Select a category"
+            placeholder={categoriesLoading ? 'Loading categories…' : 'Select a category'}
             onChange={setCategory}
+            disabled={categoriesLoading}
           />
 
           <div className="flex flex-col gap-1">
@@ -70,10 +104,13 @@ export function AddBudgetForm({ onClose, onSubmit }: AddBudgetFormProps) {
             </label>
             <div className="bg-white border border-beige-500 rounded-lg px-5 py-3 flex items-center gap-3">
               <span className="text-[length:var(--text-preset-4)] leading-[var(--text-preset-4--line-height)] text-beige-500">
-                $
+                {currencySymbol(currency)}
               </span>
               <input
-                type="text"
+                type="number"
+                min="0"
+                step="0.01"
+                inputMode="decimal"
                 placeholder="e.g. 2000"
                 value={maxSpend}
                 onChange={(e) => setMaxSpend(e.target.value)}
@@ -81,6 +118,14 @@ export function AddBudgetForm({ onClose, onSubmit }: AddBudgetFormProps) {
               />
             </div>
           </div>
+
+          <Dropdown
+            label="Currency"
+            options={currencyOptions}
+            value={currency}
+            placeholder="Select a currency"
+            onChange={setCurrency}
+          />
 
           <Dropdown
             label="Theme"
@@ -91,11 +136,16 @@ export function AddBudgetForm({ onClose, onSubmit }: AddBudgetFormProps) {
           />
         </div>
 
+        {message && (
+          <p className="text-preset-5 text-red">{message}</p>
+        )}
+
         <button
           type="submit"
-          className="w-full bg-grey-900 text-white rounded-lg px-4 py-4 text-[length:var(--text-preset-4)] font-[var(--text-preset-4--font-weight,700)] leading-[var(--text-preset-4--line-height)] hover:opacity-90 transition-opacity"
+          disabled={isSubmitting}
+          className="w-full bg-grey-900 text-white rounded-lg px-4 py-4 text-[length:var(--text-preset-4)] font-[var(--text-preset-4--font-weight,700)] leading-[var(--text-preset-4--line-height)] hover:opacity-90 transition-opacity disabled:opacity-50"
         >
-          Add Budget
+          {isSubmitting ? 'Adding…' : 'Add Budget'}
         </button>
       </form>
     </div>
